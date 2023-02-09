@@ -21,7 +21,10 @@ private:
     vector<Token> m_tokens;
 
     vector<Token> lexer(string program);
+    
+    void Expected(const std::string& expected) const;
 
+    
     bool match(TokenType expected);
 
     bool parsePROG();

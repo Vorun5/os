@@ -109,8 +109,16 @@ vector<Token> LLParser::lexer(string program)
     return m_tokens;
 }
 
+void LLParser::Expected(const std::string& expected) const
+{
+    throw std::runtime_error(
+        Formatter() << "Expected " << expected << " but received " << m_tokens[m_index].value << ". Positions: " <<
+        m_position);
+}
+
 bool LLParser::match(TokenType expected)
 {
+    m_position++;
     if (m_tokens[m_index].type == expected)
     {
         m_index++;
@@ -119,23 +127,27 @@ bool LLParser::match(TokenType expected)
     return false;
 }
 
+// std::string LLParser::getCurrenTokenName(TokenType token)
+// {
+//     const auto t = tokenTypeMap.find(m_tokens[m_index]);
+//     if (t != tokenTypeMap.end()) {
+//         return  t->second;
+//     }
+// }
+
 bool LLParser::parsePROG()
 {
     if (!match(PROG))
-    {
-        return false;
-    }
+        Expected("PROG");
     if (!match(ID))
-    {
-        return false;
-    }
+        Expected("ID");
     if (!parseVAR())
     {
         return false;
     }
     if (!match(BEGIN))
     {
-        return false;
+        Expected("BEGIN");
     }
     if (!parseLISTST())
     {
@@ -143,7 +155,7 @@ bool LLParser::parsePROG()
     }
     if (!match(END))
     {
-        return false;
+        Expected("END");
     }
     return true;
 }
@@ -151,16 +163,14 @@ bool LLParser::parsePROG()
 bool LLParser::parseVAR()
 {
     if (!match(VAR))
-    {
-        return false;
-    }
+        Expected("VAR");
     if (!parseIDLIST())
     {
         return false;
     }
     if (!match(COLON))
     {
-        return false;
+        Expected(":");
     }
     if (!parseTYPE())
     {
@@ -168,7 +178,7 @@ bool LLParser::parseVAR()
     }
     if (!match(SEMICOLON))
     {
-        return false;
+        Expected(";");
     }
     return true;
 }
@@ -176,14 +186,12 @@ bool LLParser::parseVAR()
 bool LLParser::parseIDLIST()
 {
     if (!match(ID))
-    {
-        return false;
-    }
+        Expected("ID");
     while (match(COMMA))
     {
         if (!match(ID))
         {
-            return false;
+            Expected("ID");
         }
     }
     return true;
@@ -211,9 +219,7 @@ bool LLParser::parseTYPE()
 
 bool LLParser::parseST()
 {
-    return parseREAD() ||
-        parseWRITE() ||
-        parseASSIGN();
+    return parseREAD() || parseWRITE() || parseASSIGN();
 }
 
 bool LLParser::parseREAD()
@@ -221,13 +227,13 @@ bool LLParser::parseREAD()
     if (!match(READ))
         return false;
     if (!match(LPAREN))
-        return false;
+        Expected("(");
     if (!parseIDLIST())
         return false;
     if (!match(RPAREN))
-        return false;
+        Expected(")");
     if (!match(SEMICOLON))
-        return false;
+        Expected(";");
     return true;
 }
 
@@ -236,13 +242,13 @@ bool LLParser::parseWRITE()
     if (!match(WRITE))
         return false;
     if (!match(LPAREN))
-        return false;
+        Expected("(");
     if (!parseIDLIST())
         return false;
     if (!match(RPAREN))
-        return false;
+        Expected(")");
     if (!match(SEMICOLON))
-        return false;
+        Expected(";");
     return true;
 }
 
@@ -251,11 +257,11 @@ bool LLParser::parseASSIGN()
     if (!match(ID))
         return false;
     if (!match(ASSIGN))
-        return false;
+        Expected(":=");
     if (!parseEXP())
         return false;
     if (!match(SEMICOLON))
-        return false;
+        Expected(";");
     return true;
 }
 
@@ -292,7 +298,7 @@ bool LLParser::parseF()
         if (!parseEXP())
             return false;
         if (!match(RPAREN))
-            return false;
+            Expected(")");
         return true;
     }
     if (match(ID) || match(NUM))
