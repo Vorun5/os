@@ -1,0 +1,5 @@
+﻿PROG id
+    VAR id, id, id : string;
+BEGIN
+    id := id+num*-(-num+id*id*-num*(id+-)num));
+END

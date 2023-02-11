@@ -20,7 +20,7 @@ private:
     size_t m_position;
     vector<Token> m_tokens;
 
-    vector<Token> lexer(string program);
+    vector<Token> lexer(const string& program);
     
     void Expected(const std::string& expected) const;
 

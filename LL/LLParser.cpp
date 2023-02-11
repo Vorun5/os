@@ -1,7 +1,5 @@
-﻿#include "LLParser.h"
-
-#include <iostream>
-
+﻿#include <iostream>
+#include "LLParser.h"
 #include "Formatter.h"
 
 using namespace std;
@@ -20,7 +18,8 @@ void LLParser::parse(const string& input)
     cout << m_index << endl;
 }
 
-vector<Token> LLParser::lexer(string program)
+// метод для получения всех лексем(токенов) из входной строки
+vector<Token> LLParser::lexer(const string& program)
 {
     for (size_t i = 0; i < program.length(); i++)
     {
@@ -68,6 +67,7 @@ vector<Token> LLParser::lexer(string program)
             {
                 string id;
                 id += c;
+                string idOriginal = id;
                 while (isalpha(program[++i]) || isdigit(program[i]))
                     id += program[i];
                 --i;
@@ -99,10 +99,11 @@ vector<Token> LLParser::lexer(string program)
                 else if (id == "num")
                     m_tokens.push_back({NUM, "NUM"});
                 else
-                    throw std::runtime_error(Formatter() << "Unexpected word at " << i << " positions!");
+                    throw std::runtime_error(
+                        Formatter() << "Unexpected word " << idOriginal << " at " << i << " positions!");
             }
             else
-                throw std::runtime_error(Formatter() << "Unexpected symbol at " << i << " positions!");
+                throw std::runtime_error(Formatter() << "Unexpected symbol " << c << " at " << i << " positions!");
             break;
         }
     }
@@ -112,11 +113,14 @@ vector<Token> LLParser::lexer(string program)
 void LLParser::Expected(const std::string& expected) const
 {
     throw std::runtime_error(
-        Formatter() << "Expected " << expected << " but received " << m_tokens[m_index].value << ". Positions: " <<
-        m_position);
+        Formatter() << "Expected " << expected <<
+        " but received " << m_tokens[m_index].value << ". Positions: "
+        << m_position
+    );
 }
 
-bool LLParser::match(TokenType expected)
+// проверка на то соответсвует ли текущей токен
+bool LLParser::match(const TokenType expected)
 {
     m_position++;
     if (m_tokens[m_index].type == expected)
@@ -126,14 +130,6 @@ bool LLParser::match(TokenType expected)
     }
     return false;
 }
-
-// std::string LLParser::getCurrenTokenName(TokenType token)
-// {
-//     const auto t = tokenTypeMap.find(m_tokens[m_index]);
-//     if (t != tokenTypeMap.end()) {
-//         return  t->second;
-//     }
-// }
 
 bool LLParser::parsePROG()
 {
@@ -151,11 +147,13 @@ bool LLParser::parsePROG()
     }
     if (!parseLISTST())
     {
+        Expected("LISTST");
         return false;
     }
     if (!match(END))
     {
         Expected("END");
+        return false;
     }
     return true;
 }
@@ -163,7 +161,10 @@ bool LLParser::parsePROG()
 bool LLParser::parseVAR()
 {
     if (!match(VAR))
+    {
         Expected("VAR");
+        return false;
+    }
     if (!parseIDLIST())
     {
         return false;
@@ -171,6 +172,7 @@ bool LLParser::parseVAR()
     if (!match(COLON))
     {
         Expected(":");
+        return false;
     }
     if (!parseTYPE())
     {
@@ -179,6 +181,7 @@ bool LLParser::parseVAR()
     if (!match(SEMICOLON))
     {
         Expected(";");
+        return false;
     }
     return true;
 }
@@ -186,12 +189,16 @@ bool LLParser::parseVAR()
 bool LLParser::parseIDLIST()
 {
     if (!match(ID))
+    {
         Expected("ID");
+        return false;
+    }
     while (match(COMMA))
     {
         if (!match(ID))
         {
             Expected("ID");
+            return false;
         }
     }
     return true;
@@ -201,6 +208,7 @@ bool LLParser::parseLISTST()
 {
     if (!parseST())
     {
+        Expected("ST");
         return false;
     }
     while (parseST())
@@ -227,13 +235,22 @@ bool LLParser::parseREAD()
     if (!match(READ))
         return false;
     if (!match(LPAREN))
+    {
         Expected("(");
+        return false;
+    }
     if (!parseIDLIST())
         return false;
     if (!match(RPAREN))
+    {
         Expected(")");
+        return false;
+    }
     if (!match(SEMICOLON))
+    {
         Expected(";");
+        return false;
+    }
     return true;
 }
 
@@ -242,46 +259,80 @@ bool LLParser::parseWRITE()
     if (!match(WRITE))
         return false;
     if (!match(LPAREN))
+    {
         Expected("(");
+        return false;
+    }
     if (!parseIDLIST())
         return false;
     if (!match(RPAREN))
+    {
         Expected(")");
+        return false;
+    }
     if (!match(SEMICOLON))
+    {
         Expected(";");
+        return false;
+    }
     return true;
 }
 
+// id := num+id*-num
 bool LLParser::parseASSIGN()
 {
     if (!match(ID))
-        return false;
+    {
+        return false;   
+    }
     if (!match(ASSIGN))
+    {
         Expected(":=");
-    if (!parseEXP())
         return false;
+    }
+    if (!parseEXP())
+    {
+        Expected("EXP");
+        return false;
+    }
     if (!match(SEMICOLON))
+    {
         Expected(";");
+        return false;
+    }
     return true;
 }
 
+// (num+id-num)*((id))
 bool LLParser::parseEXP()
 {
     if (!parseT())
+    {
         return false;
+    }
     while (match(PLUS))
+    {
         if (!parseT())
+        {
             return false;
+        }
+    }
     return true;
 }
 
 bool LLParser::parseT()
 {
     if (!parseF())
+    {
         return false;
+    }
     while (match(MULTIPLY))
+    {
         if (!parseF())
+        {
             return false;
+        }
+    }
     return true;
 }
 
@@ -293,18 +344,27 @@ bool LLParser::parseF()
             return false;
         return true;
     }
+    
     if (match(LPAREN))
     {
         if (!parseEXP())
-            return false;
+        {
+            Expected("EXP");
+            return false;   
+        }
+        
         if (!match(RPAREN))
+        {
             Expected(")");
+            return false;
+        }
+        
         return true;
     }
     if (match(ID) || match(NUM))
     {
-        m_index++;
         return true;
     }
+    
     return false;
 }

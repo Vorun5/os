@@ -1,7 +1,7 @@
 PROG id
-VAR id, id, id : int;
+    VAR id, id, id : int;
 BEGIN
-READ(id,id);
-Id:= id+num*-(-num+id*id*-num*( id+-num));
-WRITE(id,id,id);
+    READ(id, id);
+    id := ((((((((((((num+num*(num+num)*num))))))))))));
+    WRITE(id, id, id);
 END

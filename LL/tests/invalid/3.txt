@@ -1,0 +1,4 @@
+﻿PROG id
+    VAR id, id, id : int;
+BEGIN
+END

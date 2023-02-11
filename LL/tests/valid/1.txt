@@ -1,0 +1,6 @@
+﻿PROG id
+    VAR id : float;
+BEGIN 
+    READ(id,id);
+    WRITE(id,id,id);
+END

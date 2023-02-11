@@ -1,0 +1,7 @@
+﻿PROG id
+    VAR id : int;
+BEGIN 
+    id := id+num*(-num+id*id-num*(id+-num));
+    READ(id,id);
+    WRITE(id,id,id);
+END

@@ -133,7 +133,12 @@
     <ClCompile Include="LLParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="i.txt" />
+    <Content Include="tests\invalid\1.txt" />
+    <Content Include="tests\invalid\2.txt" />
+    <Content Include="tests\invalid\3.txt" />
+    <Content Include="tests\valid\1.txt" />
+    <Content Include="tests\valid\2.txt" />
+    <Content Include="tests\valid\4.txt" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

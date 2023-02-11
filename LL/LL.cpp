@@ -1,19 +1,21 @@
-﻿#include <iostream>
+﻿#include <fstream>
+#include <iostream>
 #include <string>
 #include "LLParser.h"
 
 using namespace std;
 
-// TODO: assign not work
 int main()
 {
-    const string input = "PROG id\nVAR id : int;\nBEGIN\nREAD(id,id);\nWRITE(id,id,id);\nEND";
-    // string input =
-    //     "PROG id\nVAR id : int;\nBEGIN\nREAD(id,id);\nId := id+12*-(-12+id*id-12*(id+-12));\nWRITE(id,id,id);\nEND";
-    LLParser parser;
+    // invalid 1
+    setlocale(LC_ALL, "Russian");
+    ifstream input("input.txt");
+    string str{ istreambuf_iterator<char>(input), istreambuf_iterator<char>() };
+    
     try
     {
-        parser.parse(input);
+        LLParser parser;
+        parser.parse(str);
     }
     catch (std::exception& e)
     {
