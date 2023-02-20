@@ -2,13 +2,14 @@ EXP 6 - ( a b 8 3 f t f f 1
 T 6 - ( a b 8 3 f t t f 13
 EXPR 4 + n * ) f t f f 3
 EXPR 1 * f f f f 7
-EXPR 1 + f f f f 8
+EXPR 1 ) f f f f 8
+EXPR 1 + f f f f 9
 EXPR 1 n f t f f 12
 * 1 * f t f f -1
 ) 1 ) f t f f -1
 + 1 + t t f f 10
 T 6 - ( a b 8 3 f t t f 13
-EXPR 4 + n * ) f t 3 f f 3
+EXPR 4 + n * ) f t f f 3
 n 1 n t t f t -1
 T 6 - ( a b 8 3 f t f f 14
 F 6 - ( a b 8 3 f t t f 26
