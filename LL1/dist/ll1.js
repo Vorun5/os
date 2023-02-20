@@ -1,18 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ll1 = void 0;
-const table_1 = __importDefault(require("./table"));
-function ll1(text, log = false) {
+function ll1(text, table, log = false) {
     const stack = [];
     let index = 0;
     let chIndex = 0;
     let count = 0;
     while (true) {
         count++;
-        const lane = table_1.default[index];
+        const lane = table[index];
         const sym = chIndex >= text.length ? '\n' : text[chIndex];
         const found = lane.symbols.includes(sym);
         if (log)

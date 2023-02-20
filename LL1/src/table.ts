@@ -1,6 +1,7 @@
 import { Lane } from './lane.interface';
+import { LL1Table } from './ll1';
 
-const Table: Lane[] = [
+export const ll1Table: LL1Table = [
 	// 0
 	{
 		name: 'EXP',
@@ -403,7 +404,7 @@ const Table: Lane[] = [
 	},
 	// 40
 	{
-		name: '8',
+		name: '3',
 		symbols: ['3'],
 		shift: true,
 		error: true,
@@ -412,5 +413,3 @@ const Table: Lane[] = [
 		end: false,
 	},
 ];
-
-export default Table;

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Table = [
+exports.ll1Table = void 0;
+exports.ll1Table = [
     // 0
     {
         name: 'EXP',
@@ -403,7 +404,7 @@ const Table = [
     },
     // 40
     {
-        name: '8',
+        name: '3',
         symbols: ['3'],
         shift: true,
         error: true,
@@ -412,5 +413,4 @@ const Table = [
         end: false,
     },
 ];
-exports.default = Table;
 //# sourceMappingURL=table.js.map

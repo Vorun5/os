@@ -24,6 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ll1_1 = require("./ll1");
+const fs = __importStar(require("fs"));
 /*
 Valid tests:
     1. --b
@@ -46,7 +47,7 @@ Invalid tests:
     8. *-8+b
     9. a3
 */
-function testing() {
+function testing(table) {
     const validTest = [
         '--b',
         'a+b',
@@ -73,17 +74,16 @@ function testing() {
     console.log('\n\n\nVALID TESTS');
     for (let i = 0; i < validTest.length; i++) {
         const test = validTest[i];
-        const result = (0, ll1_1.ll1)(test);
+        const result = (0, ll1_1.ll1)(test, table);
         console.log(`${i + 1}. ${test}\t\t${result ? 'success' : 'crash'}`);
     }
     console.log('\n\n\nINVALID TESTS');
     for (let i = 0; i < invalidTest.length; i++) {
         const test = invalidTest[i];
-        const result = (0, ll1_1.ll1)(test);
+        const result = (0, ll1_1.ll1)(test, table);
         console.log(`${i + 1}. ${test}\t\t${!result ? 'success' : 'crash'}`);
     }
 }
-const fs = __importStar(require("fs"));
 function readTableFromFile(fileName) {
     const text = fs.readFileSync(fileName, 'utf-8');
     const lines = text.split('\n');
@@ -93,11 +93,11 @@ function readTableFromFile(fileName) {
         const words = line.split(' ');
         const name = words[0];
         const countSym = Number.parseInt(words[1]);
-        const symbols = words.slice(2, 2 + countSym);
-        const shift = words[countSym + 2] === 'true';
-        const error = words[countSym + 3] === 'true';
-        const onStack = words[countSym + 4] === 'true';
-        const end = words[countSym + 5] === 'true';
+        const symbols = words.slice(2, 2 + countSym).map(el => el === 'n' ? '\n' : el);
+        const shift = words[countSym + 2] === 't';
+        const error = words[countSym + 3] === 't';
+        const onStack = words[countSym + 4] === 't';
+        const end = words[countSym + 5] === 't';
         const ref = Number.parseInt(words[countSym + 6]);
         table.push({
             name,
@@ -113,4 +113,6 @@ function readTableFromFile(fileName) {
 }
 const table = readTableFromFile('files/table.txt');
 console.log(table);
+console.log(table.length);
+testing(table);
 //# sourceMappingURL=main.js.map

@@ -1,6 +1,8 @@
-import Table from './table';
+import { Lane } from "./lane.interface";
 
-export function ll1(text: string, log: boolean = false): boolean {
+export type LL1Table = Lane[];
+
+export function ll1(text: string, table: LL1Table, log: boolean = false): boolean {
 	const stack: number[] = [];
 	let index: number = 0;
 	let chIndex: number = 0;
@@ -9,7 +11,7 @@ export function ll1(text: string, log: boolean = false): boolean {
 	while (true) {
 		count++;
 
-		const lane = Table[index];
+		const lane = table[index];
 		const sym = chIndex >= text.length ? '\n' : text[chIndex];
 
 		const found = lane.symbols.includes(sym);
