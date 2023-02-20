@@ -23,65 +23,81 @@ Invalid tests:
 	9. a3
 */
 
-const validTest: string[] = [
-	'--b',
-	'a+b',
-	'a*b',
-	'-(a+b)',
-	'(-8)',
-	'b+-a',
-	'a+(-3)',
-	'-(8*b*-((b*-3)*-8+(-3)))',
-	'(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
-];
+function testing() {
+	const validTest: string[] = [
+		'--b',
+		'a+b',
+		'a*b',
+		'-(a+b)',
+		'(-8)',
+		'b+-a',
+		'a+(-3)',
+		'-(8*b*-((b*-3)*-8+(-3)))',
+		'(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
+	];
 
-const invalidTest: string[] = [
-	'empty',
-	')',
-	'(',
-	'(3',
-	'a)',
-	'+a*b',
-	'+a*b',
-	'3**a	',
-	'*-8+b',
-	'a3',
-];
+	const invalidTest: string[] = [
+		'empty',
+		')',
+		'(',
+		'(3',
+		'a)',
+		'+a*b',
+		'+a*b',
+		'3**a	',
+		'*-8+b',
+		'a3',
+	];
 
-console.log('\n\n\nVALID TESTS');
-for (let i = 0; i < validTest.length; i++) {
-	const test = validTest[i];
-	const result = ll1(test);
-	console.log(`${i + 1}. ${test}\t\t${result ? 'successful' : 'crash'}`);
-}
+	console.log('\n\n\nVALID TESTS');
+	for (let i = 0; i < validTest.length; i++) {
+		const test = validTest[i];
+		const result = ll1(test);
+		console.log(`${i + 1}. ${test}\t\t${result ? 'success' : 'crash'}`);
+	}
 
-console.log('\n\n\nINVALID TESTS');
-for (let i = 0; i < invalidTest.length; i++) {
-	const test = invalidTest[i];
-	const result = ll1(test);
-	console.log(`${i + 1}. ${test}\t\t${!result ? 'successful' : 'crash'}`);
-}
-
-// const text = 'a+b';
-// const result = ll1(text);
-// console.log(result ? 'valid' : 'invalid');
-
-// ✅ read file ASYNCHRONOUSLY
-/*
-async function asyncReadFile(filename: string) {
-	try {
-		const contents = await promises.readFile(filename, 'utf-8');
-
-		const arr = contents.split(",");
-
-		console.log(arr); // 👉️ ['One', 'Two', 'Three', 'Four']
-
-		return arr;
-	} catch (err) {
-		console.log(err);
+	console.log('\n\n\nINVALID TESTS');
+	for (let i = 0; i < invalidTest.length; i++) {
+		const test = invalidTest[i];
+		const result = ll1(test);
+		console.log(`${i + 1}. ${test}\t\t${!result ? 'success' : 'crash'}`);
 	}
 }
 
-asyncReadFile('./files/example.txt');
-*/
+import * as fs from 'fs';
+import { Lane } from './lane.interface';
+
+function readTableFromFile(fileName: string) {
+	const text = fs.readFileSync(fileName, 'utf-8');
+	const lines = text.split('\n');
+	const table: Lane[] = [];
+	for (let line of lines) {
+		line = line.replace('\r', '');
+		const words = line.split(' ');
+		const name = words[0];
+		const countSym = Number.parseInt(words[1]);
+		const symbols = words.slice(2, 2 + countSym);
+		const shift = words[countSym + 2] === 'true';
+		const error = words[countSym + 3] === 'true';
+		const onStack = words[countSym + 4] === 'true';
+		const end = words[countSym + 5] === 'true';
+		const ref = Number.parseInt(words[countSym + 6]);
+	
+		table.push({
+			name,
+			end,
+			symbols,
+			shift,
+			error,
+			onStack,
+			ref,
+		});
+	}
+	return table;
+}
+
+const table = readTableFromFile('files/table.txt');
+
+console.log(table);
+
 export {};
