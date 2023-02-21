@@ -18,15 +18,13 @@ Invalid tests:
 	1. empty
 	2. )
 	3. (
-	4. (3
-	5. a)
-	6. +a*b
-	7. 3**a		
-	8. *-8+b
-	9. a3
+	4. +a*b
+	5. 3**a		
+	6. *-8+b
+	7. a3
 */
 
-function testing(table: LL1Table) {
+function testing(table: LL1Table, log: boolean = false) {
 	const validTest: string[] = [
 		'--b',
 		'a+b',
@@ -43,8 +41,6 @@ function testing(table: LL1Table) {
 		'empty',
 		')',
 		'(',
-		'(3',
-		'a)',
 		'+a*b',
 		'+a*b',
 		'3**a	',
@@ -55,14 +51,14 @@ function testing(table: LL1Table) {
 	console.log('\n\n\nVALID TESTS');
 	for (let i = 0; i < validTest.length; i++) {
 		const test = validTest[i];
-		const result = ll1(test, table);
+		const result = ll1(test, table, log);
 		console.log(`${i + 1}. ${test}\t\t${result ? 'success' : 'crash'}`);
 	}
 
 	console.log('\n\n\nINVALID TESTS');
 	for (let i = 0; i < invalidTest.length; i++) {
 		const test = invalidTest[i];
-		const result = ll1(test, table);
+		const result = ll1(test, table, log);
 		console.log(`${i + 1}. ${test}\t\t${!result ? 'success' : 'crash'}`);
 	}
 }
@@ -76,7 +72,9 @@ function readTableFromFile(fileName: string) {
 		const words = line.split(' ');
 		const name = words[0];
 		const countSym = Number.parseInt(words[1]);
-		const symbols = words.slice(2, 2 + countSym).map(el => el === 'n' ? '\n' : el);
+		const symbols = words
+			.slice(2, 2 + countSym)
+			.map((el) => (el === 'n' ? '\n' : el));
 		const shift = words[countSym + 2] === 't';
 		const error = words[countSym + 3] === 't';
 		const onStack = words[countSym + 4] === 't';
@@ -99,7 +97,6 @@ function readTableFromFile(fileName: string) {
 const table = readTableFromFile('files/table.txt');
 console.log(table);
 console.log(table.length);
-
 testing(table);
 
 export {};

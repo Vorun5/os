@@ -1,8 +1,12 @@
-import { Lane } from "./lane.interface";
+import { Lane } from './lane.interface';
 
 export type LL1Table = Lane[];
 
-export function ll1(text: string, table: LL1Table, log: boolean = false): boolean {
+export function ll1(
+	text: string,
+	table: LL1Table,
+	log: boolean = false
+): boolean {
 	const stack: number[] = [];
 	let index: number = 0;
 	let chIndex: number = 0;
@@ -24,11 +28,14 @@ export function ll1(text: string, table: LL1Table, log: boolean = false): boolea
 					stack.length === 0 ? 'stack is empty' : stack.join(', ')
 				}]\n`
 			);
-
+		if (!found && lane.name == 'n') {
+			index = stack.pop()!;
+			continue;
+		}
 		if (!found) {
 			if (lane.error) {
 				if (log)
-					console.log('Expected: ', lane.symbols, '; Found: ', sym);
+					console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
 				return false;
 			}
 			index++;

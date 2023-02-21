@@ -15,10 +15,14 @@ function ll1(text, table, log = false) {
             console.log(`${count}\t${sym === '\n' ? 'end' : sym} \t ${found}-${index
                 .toString()
                 .padStart(3, '0')}\t[${stack.length === 0 ? 'stack is empty' : stack.join(', ')}]\n`);
+        if (!found && lane.name == 'n') {
+            index = stack.pop();
+            continue;
+        }
         if (!found) {
             if (lane.error) {
                 if (log)
-                    console.log('Expected: ', lane.symbols, '; Found: ', sym);
+                    console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
                 return false;
             }
             index++;
