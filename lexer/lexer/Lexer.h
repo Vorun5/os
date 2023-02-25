@@ -1,9 +1,7 @@
 ﻿#pragma once
 
-#include <iostream>
 #include <unordered_map>
 #include <vector>
-#include <algorithm>
 #include <map>
 #include <sstream>
 
@@ -28,7 +26,7 @@ private:
     int GetChar(std::istream& input);
     void NextLine();
 
-    size_t m_lineNum = 1, m_colNum = 1;
+    size_t m_lineNumber = 1, m_columnNumber = 1;
 
     static inline std::map<std::string, Token> keywordTokensMap = {
         {"int", Token::Int},

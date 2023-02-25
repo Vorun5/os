@@ -1,5 +1,5 @@
 ﻿#include <optional>
-
+#include <algorithm>
 #include "Lexer.h"
 #include "NumberParser.h"
 
@@ -14,8 +14,8 @@ std::vector<ContextToken> Lexer::Parse(std::string& inputText)
         char firstChar;
         ContextToken tokWCtx;
         tokWCtx.token = Token::Error;
-        tokWCtx.lineNumber = m_lineNum;
-        tokWCtx.columnNumber = m_colNum;
+        tokWCtx.lineNumber = m_lineNumber;
+        tokWCtx.columnNumber = m_columnNumber;
 
         if (IsIdentifierStart(input.peek()))
         {
@@ -24,7 +24,7 @@ std::vector<ContextToken> Lexer::Parse(std::string& inputText)
         else if (NumberParser::IsNumberStart(input.peek()))
         {
             std::tie(tokWCtx.token, tokWCtx.lexeme) = NumberParser::Parse(input);
-            m_colNum += tokWCtx.lexeme.size();
+            m_columnNumber += tokWCtx.lexeme.size();
         }
         else if (auto oneSymbolTok = MatchOneSymbolTokens(firstChar = GetChar(input)))
         {
@@ -82,14 +82,14 @@ bool Lexer::IsIdentifierSymbol(const char ch)
 
 int Lexer::GetChar(std::istream& input)
 {
-    ++m_colNum;
+    ++m_columnNumber;
     return input.get();
 }
 
 void Lexer::NextLine()
 {
-    ++m_lineNum;
-    m_colNum = 0;
+    ++m_lineNumber;
+    m_columnNumber = 0;
 }
 
 std::optional<Token> Lexer::MatchTwoSymbolTokens(const char ch1, const char ch2)
