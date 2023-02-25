@@ -1,6 +1,6 @@
 ﻿#include <unordered_map>
 
-#include "TokenLogger.h"
+#include "ContextTokenLogger.h"
 
 static const std::unordered_map<Token, std::string> tokenNames = {
     {Token::Identifier, "IDENTIFIER"},
@@ -45,12 +45,12 @@ static const std::unordered_map<Token, std::string> tokenNames = {
     {Token::Error, "ERROR"}
 };
 
-void TokenLogger::SetOutputStream(std::ostream& out)
+void ContextTokenLogger::SetOutputStream(std::ostream& out)
 {
     m_out = out;
 }
 
-void TokenLogger::Log(const std::vector<TokenWithContext>& tokens)
+void ContextTokenLogger::Log(const std::vector<ContextToken>& tokens)
 {
     for (auto&& token : tokens)
     {
@@ -58,7 +58,7 @@ void TokenLogger::Log(const std::vector<TokenWithContext>& tokens)
     }
 }
 
-void TokenLogger::LogOne(const TokenWithContext& tokenWithCtx)
+void ContextTokenLogger::LogOne(const ContextToken& tokenWithCtx)
 {
     m_out.get() << tokenNames.at(*tokenWithCtx.token) << " '" << tokenWithCtx.lexeme << "' "
         << tokenWithCtx.lineNumber << ':' << tokenWithCtx.columnNumber << std::endl;

@@ -2,7 +2,7 @@
 #include <sstream>
 
 #include "Lexer.h"
-#include "TokenLogger.h"
+#include "ContextTokenLogger.h"
 
 int main()
 {
@@ -26,6 +26,6 @@ int main()
     auto result = lexer.Parse(input);
 
     // std::ostringstream oss;
-    TokenLogger::SetOutputStream(std::cout);
-    TokenLogger::Log(result);
+    ContextTokenLogger::SetOutputStream(std::cout);
+    ContextTokenLogger::Log(result);
 }

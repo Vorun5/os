@@ -3,7 +3,7 @@
 #include <string>
 #include "Token.h"
 
-struct TokenWithContext
+struct ContextToken
 {
     std::optional<Token> token;
     std::string lexeme;

@@ -3,16 +3,16 @@
 #include "Lexer.h"
 #include "NumberParser.h"
 
-std::vector<TokenWithContext> Lexer::Parse(std::string& inputText)
+std::vector<ContextToken> Lexer::Parse(std::string& inputText)
 {
     std::istringstream input(inputText);
-    std::vector<TokenWithContext> result;
+    std::vector<ContextToken> result;
     while (input)
     {
         SkipWhitespaces(input);
 
         char firstChar;
-        TokenWithContext tokWCtx;
+        ContextToken tokWCtx;
         tokWCtx.token = Token::Error;
         tokWCtx.lineNumber = m_lineNum;
         tokWCtx.columnNumber = m_colNum;

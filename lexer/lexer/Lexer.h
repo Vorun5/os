@@ -7,12 +7,12 @@
 #include <map>
 #include <sstream>
 
-#include "TokenWithContext.h"
+#include "ContextToken.h"
 
 class Lexer 
 {
 public:
-    std::vector<TokenWithContext> Parse(std::string& inputText);
+    std::vector<ContextToken> Parse(std::string& inputText);
 
 private:
     static std::optional<Token> MatchTwoSymbolTokens(char ch1, char ch2);

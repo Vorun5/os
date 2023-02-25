@@ -3,17 +3,17 @@
 #include <iostream>
 #include <functional>
 
-#include "TokenWithContext.h"
+#include "ContextToken.h"
 
-class TokenLogger
+class ContextTokenLogger
 {
 public:
     static void SetOutputStream(std::ostream& out);
 
-    static void Log(const std::vector<TokenWithContext>&);
+    static void Log(const std::vector<ContextToken>&);
 
 private:
-    static void LogOne(const TokenWithContext&);
+    static void LogOne(const ContextToken&);
 
     inline static std::reference_wrapper<std::ostream> m_out = std::cout;
 };
