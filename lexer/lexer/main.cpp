@@ -7,25 +7,26 @@
 int main()
 {
     Lexer lexer;
-    std::string input = R"(
-    int main(int argc, double* argv[])
-    {
-        bool flag = argc;
-        do
-        {
-                if (x->prop >= 0b00111)
-                {
-                    /* z = 5.23 - 00342 + 0xFFE98 * 23 / 45; */
-                    flag = z <= 2;
-                }
-        } while (x == x);
+    std::string input = R"(10+a>2;)";
 
-        v.y = std::string() != x < (flag > argc);
-    })";
+//     std::string input = R"(
+//     int main(int argc, argv[])
+//     {
+//         bool flag = argc > 2;
+//         do
+//         {
+//                 if (x->prop >= -10)
+//                 {
+//                     /* z = 5.23 - 0 + 12 * 23 / 45; */
+//                     flag = z <= 2;
+//                 }
+//         } while (x == x);
+//
+//         v.y = std::string() != x < (flag > argc);
+//     })";
     
     auto result = lexer.Parse(input);
 
-    // std::ostringstream oss;
     ContextTokenLogger::SetOutputStream(std::cout);
     ContextTokenLogger::Log(result);
 }

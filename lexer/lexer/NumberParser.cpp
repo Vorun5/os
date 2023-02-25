@@ -21,9 +21,13 @@ std::string NumberParser::ReadNumber(std::istream& input)
     {
         if (input.peek() == '.')
             if (!pointFound)
-                pointFound = true;
+            {
+                pointFound = true;   
+            }
             else
-                return result;
+            {
+                return result;   
+            }
 
         result += input.get();
     }
@@ -37,28 +41,8 @@ Token NumberParser::ParseNumber(const std::string& number)
     {
         return Token::IntegerNumericLiteral;
     }
-
-    std::size_t i = 0;
-    auto first = number.at(i++);
-
-    if (first == '0')
-    {
-        auto second = number.at(i++);
-        const auto leftover = number.substr(i);
-
-        switch (second)
-        {
-        case 'x':
-            return ParseHexadecimal(leftover);
-        case 'b':
-            return ParseBinary(leftover);
-        case '.':
-            return ParseFloatingPoint(leftover);
-        default:
-            return ParseOctal(leftover);
-        }
-    }
-    return ParseInteger(number.substr(i));
+    
+    return ParseInteger(number);
 }
 
 Token NumberParser::ParseInteger(const std::string& number)
@@ -91,62 +75,6 @@ Token NumberParser::ParseFloatingPoint(const std::string& number)
     }
 
     return number.size() ? Token::FloatingPointNumberLiteral : Token::Error;
-}
-
-Token NumberParser::ParseHexadecimal(const std::string& number)
-{
-    if (number.length() == 0)
-    {
-        return Token::Error;
-    }
-
-    for (auto&& ch : number)
-    {
-        if (!IsHexDigit(ch))
-        {
-            return Token::Error;
-        }
-    }
-
-    return Token::HexadecimalNumberLiteral;
-}
-
-Token NumberParser::ParseBinary(const std::string& number)
-{
-    if (number.length() == 0)
-    {
-        return Token::Error;
-    }
-
-    for (auto&& ch : number)
-    {
-        if (!IsBinaryDigit(ch))
-        {
-            return Token::Error;
-        }
-    }
-
-    return Token::BinaryNumberLiteral;
-}
-
-Token NumberParser::ParseOctal(const std::string& number)
-{
-    for (std::size_t i = 0; i < number.length(); ++i)
-    {
-        auto& ch = number.at(i);
-
-        if (!IsOctalDigit(ch))
-        {
-            if (ch == '.')
-            {
-                return ParseFloatingPoint(number.substr(i + 1));
-            }
-
-            return Token::Error;
-        }
-    }
-
-    return Token::OctalNumberLiteral;
 }
 
 bool NumberParser::IsHexDigit(char ch)

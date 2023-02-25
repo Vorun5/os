@@ -19,10 +19,6 @@ private:
     static Token ParseInteger(const std::string& number);
     static Token ParseFloatingPoint(const std::string& number);
 
-    static Token ParseHexadecimal(const std::string& number);
-    static Token ParseBinary(const std::string& number);
-    static Token ParseOctal(const std::string& number);
-
     static bool IsHexDigit(char ch);
     static bool IsBinaryDigit(char ch);
     static bool IsOctalDigit(char ch);
