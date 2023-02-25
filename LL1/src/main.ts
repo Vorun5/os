@@ -38,7 +38,7 @@ function testing(table: LL1Table, log: boolean = false) {
 	];
 
 	const invalidTest: string[] = [
-		'empty',
+		'',
 		')',
 		'(',
 		'+a*b',

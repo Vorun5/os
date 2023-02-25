@@ -35,15 +35,14 @@ function ll1(text, table, log = false) {
         if (lane.ref !== -1)
             index = lane.ref;
         else {
-            if (stack.length === 0 && lane.end)
-                return true;
             if (stack.length === 0) {
+                if (lane.end)
+                    return true;
                 if (log)
                     console.log('Stack is empty!');
                 return false;
             }
-            else
-                index = stack.pop();
+            index = stack.pop();
         }
     }
 }

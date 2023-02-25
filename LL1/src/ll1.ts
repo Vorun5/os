@@ -34,8 +34,7 @@ export function ll1(
 		}
 		if (!found) {
 			if (lane.error) {
-				if (log)
-					console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
+				if (log) console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
 				return false;
 			}
 			index++;
@@ -48,12 +47,12 @@ export function ll1(
 
 		if (lane.ref !== -1) index = lane.ref;
 		else {
-			if (stack.length === 0 && lane.end) return true;
-
 			if (stack.length === 0) {
+				if (lane.end) return true;
 				if (log) console.log('Stack is empty!');
 				return false;
-			} else index = stack.pop()!;
+			}
+			index = stack.pop()!;
 		}
 	}
 }

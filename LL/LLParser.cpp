@@ -18,7 +18,6 @@ void LLParser::parse(const string& input)
     cout << m_index << endl;
 }
 
-// метод для получения всех лексем(токенов) из входной строки
 vector<Token> LLParser::lexer(const string& program)
 {
     for (size_t i = 0; i < program.length(); i++)
@@ -119,10 +118,9 @@ void LLParser::Expected(const std::string& expected) const
     );
 }
 
-// проверка на то соответсвует ли текущей токен
 bool LLParser::match(const TokenType expected)
 {
-    m_position++;
+    // m_position++;
     if (m_tokens[m_index].type == expected)
     {
         m_index++;
@@ -134,9 +132,15 @@ bool LLParser::match(const TokenType expected)
 bool LLParser::parsePROG()
 {
     if (!match(PROG))
+    {
         Expected("PROG");
+        return false;
+    }
     if (!match(ID))
+    {
         Expected("ID");
+        return false;
+    }
     if (!parseVAR())
     {
         return false;
@@ -144,6 +148,7 @@ bool LLParser::parsePROG()
     if (!match(BEGIN))
     {
         Expected("BEGIN");
+        return false;
     }
     if (!parseLISTST())
     {
@@ -283,7 +288,7 @@ bool LLParser::parseASSIGN()
 {
     if (!match(ID))
     {
-        return false;   
+        return false;
     }
     if (!match(ASSIGN))
     {
@@ -344,27 +349,27 @@ bool LLParser::parseF()
             return false;
         return true;
     }
-    
+
     if (match(LPAREN))
     {
         if (!parseEXP())
         {
             Expected("EXP");
-            return false;   
+            return false;
         }
-        
+
         if (!match(RPAREN))
         {
             Expected(")");
             return false;
         }
-        
+
         return true;
     }
     if (match(ID) || match(NUM))
     {
         return true;
     }
-    
+
     return false;
 }

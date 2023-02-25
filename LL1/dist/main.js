@@ -58,7 +58,7 @@ function testing(table, log = false) {
         '(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
     ];
     const invalidTest = [
-        'empty',
+        '',
         ')',
         '(',
         '+a*b',
