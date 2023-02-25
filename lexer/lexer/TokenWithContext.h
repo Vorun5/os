@@ -1,8 +1,6 @@
 ﻿#pragma once
-
 #include <optional>
 #include <string>
-
 #include "Token.h"
 
 struct TokenWithContext
