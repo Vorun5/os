@@ -8,8 +8,7 @@ class LLParser
 {
 public:
     explicit LLParser()
-        : m_index(0),
-          m_position(0)
+        : m_index(0)
     {
     }
 
@@ -17,13 +16,13 @@ public:
 
 private:
     size_t m_index;
-    size_t m_position;
     vector<Token> m_tokens;
 
     vector<Token> lexer(const string& program);
     
     void Expected(const std::string& expected) const;
 
+    void ErrorLog(const std::string& message) const;
     
     bool match(TokenType expected);
 

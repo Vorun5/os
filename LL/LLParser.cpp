@@ -7,15 +7,17 @@ using namespace std;
 void LLParser::parse(const string& input)
 {
     m_tokens = lexer(input);
-    if (parsePROG() && m_index == m_tokens.size())
+    const bool isValid = parsePROG();
+    cout << "Total tokens: " << m_tokens.size() << endl;
+    if (isValid && m_index == m_tokens.size())
     {
-        cout << "Program is syntactically correct." << endl;
+        cout << "SUCCESS: Program is syntactically correct." << endl;
+        return;
     }
-    else
+    if (isValid && m_index < m_tokens.size())
     {
-        cout << "Program is syntactically incorrect." << endl;
+        cout << "ERROR: Program has " << m_tokens.size() - m_index << " extra tokens!" << endl;
     }
-    cout << m_index << endl;
 }
 
 vector<Token> LLParser::lexer(const string& program)
@@ -111,16 +113,30 @@ vector<Token> LLParser::lexer(const string& program)
 
 void LLParser::Expected(const std::string& expected) const
 {
+    ErrorLog("Expected " + expected +
+        " but received " + m_tokens[m_index].value + "\n       Positions: " + std::to_string(m_index));
+}
+
+void LLParser::ErrorLog(const std::string& message) const
+{
     throw std::runtime_error(
-        Formatter() << "Expected " << expected <<
-        " but received " << m_tokens[m_index].value << ". Positions: "
-        << m_position
-    );
+        Formatter() << "Total tokens: " << m_tokens.size() << "\nERROR: " << message);
 }
 
 bool LLParser::match(const TokenType expected)
 {
-    // m_position++;
+    if (m_index >= m_tokens.size())
+    {
+        if (const auto it = tokenTypeMap.find(expected); it != tokenTypeMap.end())
+        {
+            ErrorLog("Expected " + it->second +
+                " but received end of program\n       Positions: " + std::to_string(m_index - 1));
+        }
+        else
+        {
+            ErrorLog("Unexpected end of program");
+        }
+    }
     if (m_tokens[m_index].type == expected)
     {
         m_index++;
@@ -149,6 +165,12 @@ bool LLParser::parsePROG()
     {
         Expected("BEGIN");
         return false;
+    }
+    if (m_tokens[m_tokens.size() - 1].type != TokenType::END)
+    {
+        ErrorLog(
+            "The program should end with END, but it ends with " + m_tokens[m_tokens.size() - 1].value +
+            " .\n       Positions: " + std::to_string(m_tokens.size()));
     }
     if (!parseLISTST())
     {
@@ -198,6 +220,10 @@ bool LLParser::parseIDLIST()
         Expected("ID");
         return false;
     }
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected : but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
     while (match(COMMA))
     {
         if (!match(ID))
@@ -216,6 +242,10 @@ bool LLParser::parseLISTST()
         Expected("ST");
         return false;
     }
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected END but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
     while (parseST())
     {
     }
@@ -224,6 +254,11 @@ bool LLParser::parseLISTST()
 
 bool LLParser::parseTYPE()
 {
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected TYPE but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
+
     return match(INT) ||
         match(FLOAT) ||
         match(BOOL) ||
@@ -295,6 +330,10 @@ bool LLParser::parseASSIGN()
         Expected(":=");
         return false;
     }
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected EXP but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
     if (!parseEXP())
     {
         Expected("EXP");
@@ -302,7 +341,10 @@ bool LLParser::parseASSIGN()
     }
     if (!match(SEMICOLON))
     {
-        Expected(";");
+        if (m_tokens[m_index].type == TokenType::MINUS)
+        {
+            ErrorLog("Expected F or ID or LPAREN but received ;\n       Positions: " + std::to_string(m_index));
+        }
         return false;
     }
     return true;
@@ -311,6 +353,10 @@ bool LLParser::parseASSIGN()
 // (num+id-num)*((id))
 bool LLParser::parseEXP()
 {
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected EXP but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
     if (!parseT())
     {
         return false;
@@ -327,9 +373,18 @@ bool LLParser::parseEXP()
 
 bool LLParser::parseT()
 {
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog("Expected T but received end of program\n       Positions: " + std::to_string(m_index - 1));
+    }
     if (!parseF())
     {
         return false;
+    }
+    if (m_index >= m_tokens.size())
+    {
+        ErrorLog(
+            "Expected some operator but received end of program\n       Positions: " + std::to_string(m_index - 1));
     }
     while (match(MULTIPLY))
     {
