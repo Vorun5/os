@@ -34,7 +34,8 @@ export function ll1(
 		}
 		if (!found) {
 			if (lane.error) {
-				if (log) console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
+				if (log)
+					console.log(`Expected: ${lane.symbols}; Found: ${sym}`);
 				return false;
 			}
 			index++;
@@ -56,3 +57,5 @@ export function ll1(
 		}
 	}
 }
+
+// test
