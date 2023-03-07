@@ -1,0 +1,28 @@
+EXP 6 - ( a b 8 3 f t f f 7
+EXPR 1 + f f f f 9
+EXPR 2 n ) f t f f 12
+T 6 a b 8 3 ( - f t f f 13
+TR 1 * f f f f 15
+TR 3 + n ) f t f f 18
+F 6 a b 8 3 ( - f t f f 19
+T 6 - ( a b 8 3 f t t f 3
+EXPR 3 + n ) f t f f 1
++ 1 + t t f f 10
+T 6 - ( a b 8 3 f t t f 3
+EXPR 3 + n ) f t f f 1
+n 1 n f f f t -1 
+F 6 - ( a b 8 3 f t t f 6
+TR 4 + * n ) f t f f 4
+* 1 * t t f f 16
+F 6 - ( a b 8 3 f t t f 6
+TR 4 + * n ) f t f f 4
+n 1 n f f f t -1
+F 4 a b 8 3 f f f f 22
+F 1 ( f f f f 25
+F 1 - f t f f 23
+ab83 4 a b 8 3 t t f f -1
+- 1 - t t f f 24
+F 6 - ( a b 8 3 f t f f 6
+( 1 ( t t f f 26
+EXP 6 - ( a b 8 3 f t t f 0
+) 1 ) t t f f -1

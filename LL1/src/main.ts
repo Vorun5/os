@@ -2,7 +2,7 @@ import { ll1, LL1Table } from './ll1';
 import * as fs from 'fs';
 import { Lane } from './lane.interface';
 import { ll1Table } from './table';
-/* njnj*/
+
 /*
 Valid tests:
 	1. --b 
@@ -18,13 +18,15 @@ Invalid tests:
 	1. empty
 	2. )
 	3. (
-	4. +a*b
-	5. 3**a		
-	6. *-8+b
-	7. a3
+	4. (3
+	5. a)
+	6. +a*b
+	7. 3**a		
+	8. *-8+b
+	9. a3
 */
 
-function testing(table: LL1Table, log: boolean = false) {
+function testing(table: LL1Table) {
 	const validTest: string[] = [
 		'--b',
 		'a+b',
@@ -32,15 +34,18 @@ function testing(table: LL1Table, log: boolean = false) {
 		'-(a+b)',
 		'(-8)',
 		'b+-a',
+		'(a+b)',
 		'a+(-3)',
 		'-(8*b*-((b*-3)*-8+(-3)))',
 		'(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
 	];
 
 	const invalidTest: string[] = [
-		'',
+		'empty',
 		')',
 		'(',
+		'a)',
+		'(b',
 		'+a*b',
 		'+a*b',
 		'3**a	',
@@ -51,14 +56,14 @@ function testing(table: LL1Table, log: boolean = false) {
 	console.log('\n\n\nVALID TESTS');
 	for (let i = 0; i < validTest.length; i++) {
 		const test = validTest[i];
-		const result = ll1(test, table, log);
+		const result = ll1(test, table);
 		console.log(`${i + 1}. ${test}\t\t${result ? 'success' : 'crash'}`);
 	}
 
 	console.log('\n\n\nINVALID TESTS');
 	for (let i = 0; i < invalidTest.length; i++) {
 		const test = invalidTest[i];
-		const result = ll1(test, table, log);
+		const result = ll1(test, table);
 		console.log(`${i + 1}. ${test}\t\t${!result ? 'success' : 'crash'}`);
 	}
 }
@@ -82,21 +87,26 @@ function readTableFromFile(fileName: string) {
 		const ref = Number.parseInt(words[countSym + 6]);
 
 		table.push({
-			name,
 			end,
 			symbols,
 			shift,
 			error,
 			onStack,
 			ref,
+			name,
 		});
 	}
 	return table;
 }
 
-const table = readTableFromFile('files/table.txt');
+//const tablename = 'files/tabletop.txt';;
+const tablename = 'files/tableflip.txt';
+
+const table = readTableFromFile(tablename);
 console.log(table);
 console.log(table.length);
+
 testing(table);
+//console.log(ll1('(a', table, true));
 
 export {};
