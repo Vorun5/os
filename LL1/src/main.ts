@@ -2,7 +2,7 @@ import { ll1, LL1Table } from './ll1';
 import * as fs from 'fs';
 import { Lane } from './lane.interface';
 import { ll1Table } from './table';
-
+/* njnj*/
 /*
 Valid tests:
 	1. --b 
