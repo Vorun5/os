@@ -26,13 +26,11 @@ export function ll1(
 					lane.name
 				}\t${found}-${index.toString().padStart(3, '0')}\t next: ${
 					lane.ref
-				}\t error: ${lane.error}\t NOS: ${lane.onStack}\tshift: ${
-					lane.shift
-				}\t \t [${
+				}\tsymbs: [${lane.symbols.join(', ')}] \t error: ${
+					lane.error
+				}\t NOS: ${lane.onStack}\tshift: ${lane.shift}\t \t [${
 					stack.length === 0 ? 'stack is empty' : stack.join(', ')
-				}] i = ${chIndex}\tend: ${
-					lane.end
-				}\tsymbs: [${lane.symbols.join(', ')}] \n`
+				}] i = ${chIndex}\tend: ${lane.end}\n`
 			);
 		// console.log(
 		// 	`${count}\t${sym === '\n' ? 'END' : sym} \t ${found}-${index

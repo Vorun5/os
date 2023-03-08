@@ -37,6 +37,14 @@ function testing(table: LL1Table) {
 		'(a+b)',
 		'a+(-3)',
 		'-(8*b*-((b*-3)*-8+(-3)))',
+		'a+b+8+3',
+		'a*b*8*3',
+		'a+(a*-8)+b',
+		'a*(a*-8)*b',
+		'---(a)',
+		'a+b+((a+(b*-3)*(b+a+8*(-3)))+a*-b*((a)*(b)))',
+		'(a)*(b)',
+		'(a)+(b)',
 		'(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
 	];
 
@@ -100,13 +108,15 @@ function readTableFromFile(fileName: string) {
 }
 
 //const tablename = 'files/tabletop.txt';;
-const tablename = 'files/tableflip.txt';
+const tablename = 'files/tabletop.txt';
 
 const table = readTableFromFile(tablename);
 console.log(table);
 console.log(table.length);
 
 testing(table);
-//console.log(ll1('(a', table, true));
+//console.log(ll1('(a+b*(a-3+(b*3)))', table, true));
+
+//console.log(ll1('a-b', table, true));
 
 export {};
