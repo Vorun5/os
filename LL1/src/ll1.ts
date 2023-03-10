@@ -25,13 +25,17 @@ export function ll1(
 					lane.name
 				}\t${found}-${index.toString().padStart(3, '0')}\t next: ${
 					lane.ref
-				}\t error: ${lane.error}\t NOS: ${lane.onStack}\tshift: ${
-					lane.shift
-				}\t \t [${
+				}\tsymbs: [${lane.symbols.join(', ')}] \t error: ${
+					lane.error
+				}\t NOS: ${lane.onStack}\tshift: ${lane.shift}\t \t [${
 					stack.length === 0 ? 'stack is empty' : stack.join(', ')
+<<<<<<< HEAD
 				}] i = ${chIndex}\tend: ${lane.end}\tsymbs: [${lane.symbols
 					.join(', ')
 					.replace('\n', 'n')}] \n`
+=======
+				}] i = ${chIndex}\tend: ${lane.end}\n`
+>>>>>>> 92b5b004c80064e880cc60fc447a0ba887f35cab
 			);
 
 		if (!found && lane.name == 'n') {

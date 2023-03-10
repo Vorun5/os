@@ -58,6 +58,14 @@ function testing(table) {
         '(a+b)',
         'a+(-3)',
         '-(8*b*-((b*-3)*-8+(-3)))',
+        'a+b+8+3',
+        'a*b*8*3',
+        'a+(a*-8)+b',
+        'a*(a*-8)*b',
+        '---(a)',
+        'a+b+((a+(b*-3)*(b+a+8*(-3)))+a*-b*((a)*(b)))',
+        '(a)*(b)',
+        '(a)+(b)',
         '(a+-b*(-a+3)+((a+b)+((a*-b)))+((((a+8)+(a*8)))))',
     ];
     const invalidTest = [
@@ -115,7 +123,7 @@ function readTableFromFile(fileName) {
     return table;
 }
 //const tablename = 'files/tabletop.txt';;
-const tablename = 'files/tableflip.txt';
+const tablename = 'files/tabletop.txt';
 const table = readTableFromFile(tablename);
 // console.log(table);
 // console.log(table.length);
