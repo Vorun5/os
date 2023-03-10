@@ -117,7 +117,9 @@ function readTableFromFile(fileName) {
 //const tablename = 'files/tabletop.txt';;
 const tablename = 'files/tableflip.txt';
 const table = readTableFromFile(tablename);
-console.log(table);
-console.log(table.length);
-testing(table);
+// console.log(table);
+// console.log(table.length);
+const text = '(a+b)';
+const result = (0, ll1_1.ll1)(text, table, true);
+console.log(text, result);
 //# sourceMappingURL=main.js.map

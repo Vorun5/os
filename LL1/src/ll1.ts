@@ -17,7 +17,6 @@ export function ll1(
 
 		const lane = table[index];
 		const sym = chIndex >= text.length ? '\n' : text[chIndex];
-		//console.log(`-- ${index} ${sym} --`);
 		const found = lane.symbols.includes(sym);
 
 		if (log)
@@ -30,22 +29,13 @@ export function ll1(
 					lane.shift
 				}\t \t [${
 					stack.length === 0 ? 'stack is empty' : stack.join(', ')
-				}] i = ${chIndex}\tend: ${
-					lane.end
-				}\tsymbs: [${lane.symbols.join(', ')}] \n`
+				}] i = ${chIndex}\tend: ${lane.end}\tsymbs: [${lane.symbols
+					.join(', ')
+					.replace('\n', 'n')}] \n`
 			);
-		// console.log(
-		// 	`${count}\t${sym === '\n' ? 'END' : sym} \t ${found}-${index
-		// 		.toString()
-		// 		.padStart(3, '0')}\t[${
-		// 		stack.length === 0 ? 'stack is empty' : stack.join(', ')
-		// 	}]\n`
-		// );
+
 		if (!found && lane.name == 'n') {
 			index = stack.pop()!;
-			//if (stack.length == 0 && lane.name == 'n') {
-			//	return false;
-			//}
 			if (index == undefined) {
 				return false;
 			}
@@ -77,9 +67,6 @@ export function ll1(
 				if (index == undefined) {
 					return false;
 				}
-				//if (stack.length == 0 && lane.name == 'n') {
-				//		return false;
-				//}
 			}
 		}
 	}

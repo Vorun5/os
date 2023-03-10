@@ -103,10 +103,13 @@ function readTableFromFile(fileName: string) {
 const tablename = 'files/tableflip.txt';
 
 const table = readTableFromFile(tablename);
-console.log(table);
-console.log(table.length);
+// console.log(table);
+// console.log(table.length);
 
-testing(table);
+const text = '(a+b)';
+const result = ll1(text, table, true);
+console.log(text, result);
+// testing(table);
 //console.log(ll1('(a', table, true));
 
 export {};

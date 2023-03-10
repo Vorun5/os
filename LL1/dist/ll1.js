@@ -10,22 +10,13 @@ function ll1(text, table, log = false) {
         count++;
         const lane = table[index];
         const sym = chIndex >= text.length ? '\n' : text[chIndex];
-        //console.log(`-- ${index} ${sym} --`);
         const found = lane.symbols.includes(sym);
         if (log)
-            console.log(`${count}:\tsym: ${sym === '\n' ? 'END' : sym}\t name: ${lane.name}\t${found}-${index.toString().padStart(3, '0')}\t next: ${lane.ref}\t error: ${lane.error}\t NOS: ${lane.onStack}\tshift: ${lane.shift}\t \t [${stack.length === 0 ? 'stack is empty' : stack.join(', ')}] i = ${chIndex}\tend: ${lane.end}\tsymbs: [${lane.symbols.join(', ')}] \n`);
-        // console.log(
-        // 	`${count}\t${sym === '\n' ? 'END' : sym} \t ${found}-${index
-        // 		.toString()
-        // 		.padStart(3, '0')}\t[${
-        // 		stack.length === 0 ? 'stack is empty' : stack.join(', ')
-        // 	}]\n`
-        // );
+            console.log(`${count}:\tsym: ${sym === '\n' ? 'END' : sym}\t name: ${lane.name}\t${found}-${index.toString().padStart(3, '0')}\t next: ${lane.ref}\t error: ${lane.error}\t NOS: ${lane.onStack}\tshift: ${lane.shift}\t \t [${stack.length === 0 ? 'stack is empty' : stack.join(', ')}] i = ${chIndex}\tend: ${lane.end}\tsymbs: [${lane.symbols
+                .join(', ')
+                .replace('\n', 'n')}] \n`);
         if (!found && lane.name == 'n') {
             index = stack.pop();
-            //if (stack.length == 0 && lane.name == 'n') {
-            //	return false;
-            //}
             if (index == undefined) {
                 return false;
             }
@@ -59,9 +50,6 @@ function ll1(text, table, log = false) {
                 if (index == undefined) {
                     return false;
                 }
-                //if (stack.length == 0 && lane.name == 'n') {
-                //		return false;
-                //}
             }
         }
     }
